@@ -1,0 +1,19 @@
+public class Main {
+
+	public static void main(String[] args) {
+		Rectangle ob = new Rectangle();
+		ob.setWidth(10);
+		ob.setLength(15);
+		int result=0;
+		result = ob.RectangleArea();
+		System.out.println(result);
+		
+		Squar ob1 = new Squar();
+		ob1.setLength(10);
+		System.out.println(ob1.squarArea());
+
+		
+
+	}
+
+}

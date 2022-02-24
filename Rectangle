@@ -1,0 +1,42 @@
+public class Rectangle {
+
+	private int length;
+	private int width;
+
+	public void setter(int len, int wid) {
+		setLength(len);
+		width = wid;
+	}
+	
+	 
+	
+	public int RectangleArea() {
+		 return getLength()*getWidth();
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+	
+	
+	
+
+}
+
+class Squar extends Rectangle{
+	 public int squarArea() {
+		 return getLength()*getLength();
+	 }
+}

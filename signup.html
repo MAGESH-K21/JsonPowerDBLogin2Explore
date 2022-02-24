@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>register</title>
+    <style>
+        body{
+            text-align: center;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="regist" >
+      <h2>Register yourself here</h2>
+      <form id="regform" action="" method="POST">
+        <input type="text" name="name" id="name" placeholder="enter your full name" /></br></br>
+        <input type="number" name="mobno" id="mobno" placeholder="enter mobile no" />
+      </br></br>
+        <input type="email" name="mail" id="mail" placeholder="enter your email" />
+    </br></br>
+        <input type="address" name="address"id="address" placeholder="enter your Address" /></br></br>
+        <input type="password" name="pass1" id="pass1" placeholder="enter password" /> </br></br>
+        <input type="password" name="pass2" id="pass2"placeholder="Confirm password" /></br></br>
+        <input type="button" value="Register" class="btn btn-primary" id="empSave" onclick="saveEmployee()" />
+      </form>
+    </div>
+
+    <script>
+        $("#name").focus();
+        function validateAndGetFormData() {
+        var empnamevar = $("#name").val();
+        if (empnamevar === "") {
+        alert("Employee name Required Value");
+        $("#name").focus();
+        return "";
+        }
+        var empmobnovar = $("#mobno").val();
+        if (empmobnovar === "") {
+        alert("mobile no is Required Value");
+        $("#empmobno").focus();
+        return "";
+        }
+        var empEmailVar = $("#mail").val();
+        if (empEmailVar === "") {
+        alert("Employee Email is Required Value");
+        $("#mail").focus();
+        return "";
+        }
+
+        var empaddvar = $("#address").val();
+        if(empaddvar ===""){
+            alert("please enter your address");
+            $("#address").focus();
+            return "";
+        }
+        var empass1var = $("#pass1").val();
+        var empass2var = $("#pass2").val();
+        if(empass1var ===""){
+            alert("please enter your password");
+            $("#pass1").focus();
+            return "";
+        }
+        if(empass2var ===""){
+            alert("confirm password required");
+            $("#pass2").focus();
+            return "";
+        }
+        if(empass1var != empass2var){
+            alert("password not match");
+            $("#pass2").focus();
+            return "";
+        }
+        
+        
+        var jsonStrObj = {
+        empId: empnamevar,
+        empName: empmobnovar,
+        empEmail: empEmailVar,
+        empAdd: empaddvar,
+        empPass: empass1var
+        };
+        return JSON.stringify(jsonStrObj);
+        }
+        // This method is used to create PUT Json request.
+        function createPUTRequest(connToken, jsonObj, dbName, relName) {
+        var putRequest = "{\n"
+        + "\"token\" : \""
+        + connToken
+        + "\","
+        + "\"dbName\": \""
+        + dbName
+        + "\",\n" + "\"cmd\" : \"PUT\",\n"
+        + "\"rel\" : \""
+        + relName + "\","
+        + "\"jsonStr\": \n"
+        + jsonObj
+        + "\n"
+        + "}";
+        return putRequest;
+        }
+
+        function executeCommand(reqString, dbBaseUrl, apiEndPointUrl) {
+        var url = dbBaseUrl + apiEndPointUrl;
+        var jsonObj;
+        $.post(url, reqString, function (result) {
+        jsonObj = JSON.parse(result);
+        }).fail(function (result) {
+        var dataJsonObj = result.responseText;
+        jsonObj = JSON.parse(dataJsonObj);
+        });
+        return jsonObj;
+        }
+        function resetForm() {
+        $("#name").val("");
+        $("#mobno").val("");
+        $("#mail").val("");
+        $("#address").val("");
+        $("#address").val("");
+        $("#address").val("");
+        $("#name").val("").focus();
+    }
+        function saveEmployee() {
+        var jsonStr = validateAndGetFormData();
+        if (jsonStr === "") {
+        return;
+        }
+        var putReqStr = createPUTRequest("90935494|-31948798055362138|90931881",
+        jsonStr, "SAMPLE", "EMP-REL");
+        alert(putReqStr);
+        jQuery.ajaxSetup({async: false});
+        var resultObj = executeCommand(putReqStr,
+        "http://api.login2explore.com:5577", "/api/iml");
+        alert(JSON.stringify(resultObj));
+        jQuery.ajaxSetup({async: true});
+        resetForm();
+        }
+        </script>
+  </body>
+</html>
